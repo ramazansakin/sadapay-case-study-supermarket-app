@@ -2,16 +2,23 @@ package com.rsakin.sadapay.casestudy;
 
 public class SuperMarket {
 
-    private Inventory inventory;
-    // To handle client commands on a more specific class - SRP
+    private static Inventory inventory;
+    public static final String BASE_FOLDER = ".\\inventory";
+    // we can use List to multiply cashiers to serve multiple users simultaneously
+    // But also we need to consider concurrency issues then
     private Cashier cashier;
 
-    public SuperMarket(String inventoryFile) {
-        this.inventory = new Inventory(inventoryFile);
-        this.cashier = new Cashier();
+    public SuperMarket(final String inventoryFile) {
+        inventory = Inventory.getInventory(inventoryFile);
+        cashier = new Cashier();
     }
 
-//    public void doCommand(String commandLine) {
-//        cashier.doCommand(commandLine);
-//    }
+    public void work() {
+        // start cashier to serve user or process commandFile depends on the related argument
+        cashier.work();
+    }
+
+    public static Inventory getInventory() {
+        return inventory;
+    }
 }
