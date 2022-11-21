@@ -34,5 +34,12 @@ class SuperMarketTest extends BaseTest {
         assertEquals("You need to 'checkout' first to start shopping!\r\n", errContent.toString());
     }
 
+    // need to see bill details when I run 'bill' command
+    @Test
+    void shouldRunOfferCommandTodefineOffer_BUY_2_GET_1_FREE() {
+        provideInput("checkout\r\nadd soap 5\r\noffer buy_2_get_1_free soap\r\nbill\r\ncheckout");
+        superMarket.work();
+        assertEquals("empty cart\r\nadded soap 5\r\nsubtotal:50.0, discount:0.0, total:50.0\r\noffer added\r\ndone\r\n", outContent.toString());
+    }
 
 }

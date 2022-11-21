@@ -38,5 +38,4 @@ class CashierTest extends BaseTest {
         assertEquals("empty cart\r\nadded soap 5\r\nsubtotal:50.0, discount:0.0, total:50.0\r\ndone\r\n", outContent.toString());
     }
 
-
 }

@@ -7,7 +7,6 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.io.PrintStream;
-import java.util.Scanner;
 
 public class BaseTest {
     // To catch the stdout and stderr messages and assert with expected ones
