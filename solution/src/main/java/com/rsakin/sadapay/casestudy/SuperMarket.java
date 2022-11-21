@@ -3,7 +3,7 @@ package com.rsakin.sadapay.casestudy;
 public class SuperMarket {
 
     private static Inventory inventory;
-    public static final String BASE_FOLDER = ".\\inventory";
+    public static final String BASE_FOLDER = ".\\..\\functional_spec\\fixtures";
     // we can use List to multiply cashiers to serve multiple users simultaneously
     // But also we need to consider concurrency issues then
     private Cashier cashier;

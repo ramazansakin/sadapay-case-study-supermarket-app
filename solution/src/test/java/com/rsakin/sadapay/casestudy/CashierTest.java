@@ -17,6 +17,7 @@ class CashierTest extends BaseTest {
     void shouldGetDoneForSecondCheckout(){
         // to get more commands, I need to create a loop on cashier and do commands until getting second 'checkout'
         Cashier cashier = new Cashier();
+        provideInput("checkout\r\ncheckout");
         cashier.work();
         // Try to type 'checkout' twice and see the blow output
         assertEquals("empty cart\r\ndone\r\n", outContent.toString());
