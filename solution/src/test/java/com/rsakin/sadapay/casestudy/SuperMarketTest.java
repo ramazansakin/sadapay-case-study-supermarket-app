@@ -40,7 +40,7 @@ class SuperMarketTest {
     void shouldRunCommandCheckout(){
         SuperMarket superMarket = new SuperMarket(".\\..\\functional_spec\\fixtures\\inventory.csv");
         superMarket.doCommand("checkout");
-        assertEquals("empty chart\r\n", outContent.toString());
+        assertEquals("empty cart\r\n", outContent.toString());
     }
 
 }

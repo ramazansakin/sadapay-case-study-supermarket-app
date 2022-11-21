@@ -16,7 +16,7 @@ public class Inventory {
             final var allLines =
                     Files.readAllLines(Paths.get(".", inventoryFile));
 
-            allLines.forEach(System.out::println);
+//            allLines.forEach(System.out::println);
         } catch (IOException e) {
             System.err.println("There is no such file [ " + inventoryFile + " ]");
         }

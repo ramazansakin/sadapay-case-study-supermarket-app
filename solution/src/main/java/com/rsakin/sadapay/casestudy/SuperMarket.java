@@ -8,4 +8,9 @@ public class SuperMarket {
         this.inventory = new Inventory(inventoryFile);
     }
 
+    public void doCommand(String commandLine) {
+        if(commandLine.equals("checkout")){
+            System.out.println("empty cart");
+        }
+    }
 }
