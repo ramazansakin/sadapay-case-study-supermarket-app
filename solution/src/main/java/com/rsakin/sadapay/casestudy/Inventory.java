@@ -4,8 +4,8 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
-import java.util.StringJoiner;
 
 public class Inventory {
 
@@ -40,8 +40,7 @@ public class Inventory {
                 Item item = new Item(parts[0], Double.parseDouble(parts[1]), Integer.parseInt(parts[2]));
                 items.add(item);
             });
-
-            printInventoryStatus();
+//            printInventoryStatus();
 
         } catch (IOException e) {
             System.err.println("There is no such file [ " + inventoryFileName + " ]");
@@ -49,11 +48,14 @@ public class Inventory {
     }
 
     public static void printInventoryStatus() {
-        StringJoiner inventoryListFormat = new StringJoiner("\n");
-        inventoryListFormat.add("--- Inventory Item List ---");
-        items.forEach(item -> inventoryListFormat.add(item.toString()));
-        inventoryListFormat.add("--- End of List ---");
-        System.out.println(inventoryListFormat);
+        System.out.println("--- Inventory Item List ---");
+        items.forEach(System.out::println);
+        System.out.println("--- End of List ---");
+    }
+
+    public Item findItemByName(final String itemName) {
+        Optional<Item> theItem = items.stream().filter(item -> item.getName().equals(itemName)).findFirst();
+        return theItem.orElseThrow(() -> new RuntimeException("Item not found"));
     }
 
 }

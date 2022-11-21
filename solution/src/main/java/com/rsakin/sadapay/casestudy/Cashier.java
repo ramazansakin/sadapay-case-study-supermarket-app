@@ -37,7 +37,10 @@ public class Cashier {
                     checkout();
                     break;
                 case ADD:
-                    add(commandLine);
+                    add(parts);
+                    break;
+                case BILL:
+                    bill();
                     break;
             }
         } catch (IllegalArgumentException exp) {
@@ -58,9 +61,22 @@ public class Cashier {
         System.out.println("done");
     }
 
-    public void add(String commandLine) {
-        // parse the commandLine
-        String[] parts = commandLine.split(" ");
-        System.out.println("added " + parts[1] + " " + parts[2]);
+    private void add(final String[] commandLineParts) {
+        try {
+            Item itemByName = SuperMarket.getInventory().findItemByName(commandLineParts[1]);
+            int requestedQuantity = Integer.parseInt(commandLineParts[2]);
+            // create new item to add to shopping-cart
+            Item newCartItem = new Item(itemByName.getName(), itemByName.getPrice(), requestedQuantity);
+            cart.addItem(newCartItem);
+            // decrease the inventory item quantity
+            itemByName.setQuantity(itemByName.getQuantity() - requestedQuantity);
+            System.out.println("added " + newCartItem.getName() + " " + requestedQuantity);
+        } catch (Exception exception) {
+            System.err.println(exception.getMessage());
+        }
+    }
+
+    private void bill() {
+        cart.calculateBill();
     }
 }
