@@ -1,15 +1,31 @@
 package com.rsakin.sadapay.casestudy;
 
+import java.util.Scanner;
+
 public class Cashier {
 
     private ShoppingCart cart;
 
     public void doCommand(String commandLine) {
-        if (!commandLine.equals("checkout")) {
+
+        // Using Scanner for Getting Input from User
+        Scanner in = new Scanner(System.in);
+        String command = in.nextLine();
+
+        while (!"checkout".equals(command)) {
             System.err.println("You need to 'checkout' first to start shopping!");
-            return;
+            command = in.nextLine();
         }
+        // checkout to start shopping
         System.out.println("empty cart");
+        command = in.nextLine();
+        while (!"checkout".equals(command)) {
+            doCommand(command);
+            command = in.nextLine();
+        }
+        // checkout to stop shopping
+        System.out.println("done");
+
     }
 
     public void add(String commandLine) {

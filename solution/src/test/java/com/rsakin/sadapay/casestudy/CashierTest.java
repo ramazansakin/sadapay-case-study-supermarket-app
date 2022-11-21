@@ -13,4 +13,15 @@ class CashierTest extends BaseTest {
         assertEquals("added soap 5\r\n", outContent.toString());
     }
 
+    @Test
+    void shouldGetDoneForSecondCheckout(){
+        // to get more commands, I need to create a loop on cashier and do commands until getting second 'checkout'
+        Cashier cashier = new Cashier();
+        cashier.doCommand("checkout");
+        // second time
+        cashier.doCommand("checkout");
+        assertEquals("empty cart\r\ndone\r\n", outContent.toString());
+    }
+
+
 }
