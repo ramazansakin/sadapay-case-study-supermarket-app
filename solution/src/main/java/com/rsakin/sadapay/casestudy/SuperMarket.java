@@ -11,7 +11,7 @@ public class SuperMarket {
         this.cashier = new Cashier();
     }
 
-    public void doCommand(String commandLine) {
-        cashier.doCommand(commandLine);
-    }
+//    public void doCommand(String commandLine) {
+//        cashier.doCommand(commandLine);
+//    }
 }
