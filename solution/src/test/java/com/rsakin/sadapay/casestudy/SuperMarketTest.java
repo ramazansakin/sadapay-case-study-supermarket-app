@@ -47,7 +47,7 @@ class SuperMarketTest extends BaseTest {
     void shouldRunOfferCommandTodefineOffer_BUY_1_GET_HALF_OFF() {
         provideInput("checkout\r\nadd soap 4\r\noffer buy_1_get_half_off soap\r\nbill\r\ncheckout");
         superMarket.work();
-        assertEquals("empty cart\r\nadded soap 5\r\noffer added\r\nsubtotal:40.0, discount:10.0, total:30.0\r\ndone\r\n", outContent.toString());
+        assertEquals("empty cart\r\nadded soap 4\r\noffer added\r\nsubtotal:40.0, discount:10.0, total:30.0\r\ndone\r\n", outContent.toString());
     }
 
 }

@@ -1,5 +1,10 @@
 package com.rsakin.sadapay.casestudy;
 
+import com.rsakin.sadapay.casestudy.offer.BuyOneGetHalfOff;
+import com.rsakin.sadapay.casestudy.offer.BuyTwoGetOneFree;
+import com.rsakin.sadapay.casestudy.type.CommandType;
+import com.rsakin.sadapay.casestudy.type.OfferType;
+
 import java.util.Locale;
 import java.util.Scanner;
 
@@ -83,6 +88,18 @@ public class Cashier {
         cart.calculateBill();
     }
 
+    private int getRequestedQuantity(final Item itemByName, final String commandLinePart) {
+        int requestedQuantity = Integer.parseInt(commandLinePart);
+        if (requestedQuantity < 1) {
+            throw new RuntimeException("Requested quantity needs to be at least more than 1"); // can be customized
+        }
+        if (itemByName.getQuantity() < requestedQuantity) {
+            throw new RuntimeException("There is/are not enough item/s for [ "
+                    + itemByName.getName() + " ]. [Remained : " + itemByName.getQuantity() + "]"); // can be customized
+        }
+        return requestedQuantity;
+    }
+
     private void offer(final String[] commandLineParts) {
         String offerType = commandLineParts[1];
         String itemOffered = commandLineParts[2];
@@ -90,20 +107,21 @@ public class Cashier {
     }
 
     private void addOffer(final String offerType, final String itemOffered) {
-        // need to check item in cart
-        Item itemByName = cart.findItemByName(itemOffered);
         try {
-            if ("buy_2_get_1_free".equals(offerType)) {
-                int offeredItemNumber = 0;
-                if (itemByName.getQuantity() > 3) {
-                    // can be defined a custom exp but I just prefer to return 0 not to impact discount
-                    // System.err.println("There is/are not enough item to get this offer.");
-                    offeredItemNumber = itemByName.getQuantity() / 3;
-                }
-                double discount = offeredItemNumber * itemByName.getPrice();
-                cart.setDiscount(discount);
-                System.out.println("offer added");
+            OfferType offer = OfferType.valueOf(offerType.toUpperCase(Locale.ROOT));
+            // need to check item in cart
+            Item itemByName = cart.findItemByName(itemOffered);
+            switch (offer) {
+                case BUY_2_GET_1_FREE:
+                    itemByName.setOffer(new BuyTwoGetOneFree());
+                    break;
+                case BUY_1_GET_HALF_OFF:
+                    itemByName.setOffer(new BuyOneGetHalfOff());
+                    break;
+                default:
+                    System.err.println("There is no such offer type [ " + offerType + " ]");
             }
+            System.out.println("offer added");
         } catch (Exception ex) {
             System.err.println("There is no such item [ " + itemOffered + " ] in inventory");
         }

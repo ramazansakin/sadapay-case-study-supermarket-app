@@ -7,7 +7,6 @@ import java.util.Set;
 public class ShoppingCart {
 
     private Set<Item> items;
-    private double discount;
 
     public ShoppingCart() {
         items = new HashSet<>();
@@ -19,17 +18,10 @@ public class ShoppingCart {
         if (!isAdded) {
             Item addedItem = items.stream().filter(item -> item.getName().equals(newItem.getName())).findFirst().get();
             newItem.setQuantity(newItem.getQuantity() + addedItem.getQuantity());
+            newItem.setOffer(addedItem.getOffer());
             items.remove(addedItem);
             items.add(newItem);
         }
-    }
-
-    public void calculateBill() {
-        // If we have no concern regarding concurrency here and not need to run orderly,
-        // we can use paralelStream to make the performance better
-        double subTotal = items.parallelStream().map(item -> item.getPrice() * item.getQuantity()).reduce(0.0, Double::sum);
-        double total = subTotal - discount;
-        System.out.println("subtotal:" + subTotal + ", discount:" + discount + ", total:" + total);
     }
 
     public Item findItemByName(final String itemName) {
@@ -37,7 +29,13 @@ public class ShoppingCart {
         return theItem.orElseThrow(() -> new RuntimeException("Item not found [" + itemName + "]"));
     }
 
-    public void setDiscount(double discount) {
-        this.discount = discount;
+    public void calculateBill() {
+        // If we have no concern regarding concurrency here and not need to run orderly,
+        // we can use paralelStream to make the performance better
+        double subTotal = items.parallelStream().map(item -> item.getPrice() * item.getQuantity()).reduce(0.0, Double::sum);
+        double discount = items.parallelStream().mapToDouble(Item::calculateDiscount).reduce(0.0, Double::sum);
+        double total = subTotal - discount;
+        System.out.println("subtotal:" + subTotal + ", discount:" + discount + ", total:" + total);
     }
+
 }

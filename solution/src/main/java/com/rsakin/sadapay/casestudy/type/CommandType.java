@@ -1,4 +1,4 @@
-package com.rsakin.sadapay.casestudy;
+package com.rsakin.sadapay.casestudy.type;
 
 public enum CommandType {
     CHECKOUT("checkout"),
