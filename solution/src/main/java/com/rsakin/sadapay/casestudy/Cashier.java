@@ -9,4 +9,10 @@ public class Cashier {
         }
         System.out.println("empty cart");
     }
+
+    public void add(String commandLine) {
+        // parse the commandLine
+        String[] parts = commandLine.split(" ");
+        System.out.println("added " + parts[1] + " " + parts[2]);
+    }
 }
