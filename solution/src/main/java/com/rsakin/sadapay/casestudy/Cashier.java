@@ -42,6 +42,9 @@ public class Cashier {
                 case BILL:
                     bill();
                     break;
+                case OFFER:
+                    offer(parts);
+                    break;
             }
         } catch (IllegalArgumentException exp) {
             System.err.println("There is no such command [ " + parts[0] + " ]");
@@ -78,5 +81,31 @@ public class Cashier {
 
     private void bill() {
         cart.calculateBill();
+    }
+
+    private void offer(final String[] commandLineParts) {
+        String offerType = commandLineParts[1];
+        String itemOffered = commandLineParts[2];
+        addOffer(offerType, itemOffered);
+    }
+
+    private void addOffer(final String offerType, final String itemOffered) {
+        // need to check item in cart
+        Item itemByName = cart.findItemByName(itemOffered);
+        try {
+            if ("buy_2_get_1_free".equals(offerType)) {
+                int offeredItemNumber = 0;
+                if (itemByName.getQuantity() > 3) {
+                    // can be defined a custom exp but I just prefer to return 0 not to impact discount
+                    // System.err.println("There is/are not enough item to get this offer.");
+                    offeredItemNumber = itemByName.getQuantity() / 3;
+                }
+                double discount = offeredItemNumber * itemByName.getPrice();
+                cart.setDiscount(discount);
+                System.out.println("offer added");
+            }
+        } catch (Exception ex) {
+            System.err.println("There is no such item [ " + itemOffered + " ] in inventory");
+        }
     }
 }

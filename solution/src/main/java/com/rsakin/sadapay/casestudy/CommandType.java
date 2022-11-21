@@ -3,7 +3,8 @@ package com.rsakin.sadapay.casestudy;
 public enum CommandType {
     CHECKOUT("checkout"),
     ADD("add"),
-    BILL("bill");
+    BILL("bill"),
+    OFFER("offer");
 
     private String type;
 
