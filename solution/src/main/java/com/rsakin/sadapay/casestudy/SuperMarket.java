@@ -1,12 +1,10 @@
 package com.rsakin.sadapay.casestudy;
 
-import java.io.IOException;
-
 public class SuperMarket {
 
     private Inventory inventory;
 
-    public SuperMarket(String inventoryFile) throws IOException {
+    public SuperMarket(String inventoryFile) {
         this.inventory = new Inventory(inventoryFile);
     }
 

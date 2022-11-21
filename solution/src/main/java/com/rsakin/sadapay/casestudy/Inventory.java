@@ -6,11 +6,11 @@ import java.nio.file.Paths;
 
 public class Inventory {
 
-    public Inventory(String inventoryFile) throws IOException {
+    public Inventory(String inventoryFile) {
         buildInventory(inventoryFile);
     }
 
-    private void buildInventory(String inventoryFile) throws IOException {
+    private void buildInventory(String inventoryFile) {
         // To build the inventory, we need to parse all the lines to fill items and add to inventory item list
         try {
             final var allLines =

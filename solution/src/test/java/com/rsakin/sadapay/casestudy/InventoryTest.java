@@ -31,7 +31,7 @@ class InventoryTest {
     }
 
     @Test
-    void shouldGetErrorWhenNoSuchFileState() throws IOException {
+    void shouldGetErrorWhenNoSuchFileState() {
         Inventory inventory = new Inventory("xxx.csv");
         assertEquals("There is no such file [ xxx.csv ]\r\n", errContent.toString());
     }
