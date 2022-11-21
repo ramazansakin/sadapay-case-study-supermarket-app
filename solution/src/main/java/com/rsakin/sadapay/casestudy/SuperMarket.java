@@ -3,16 +3,15 @@ package com.rsakin.sadapay.casestudy;
 public class SuperMarket {
 
     private Inventory inventory;
+    // To handle client commands on a more specific class - SRP
+    private Cashier cashier;
 
     public SuperMarket(String inventoryFile) {
         this.inventory = new Inventory(inventoryFile);
+        this.cashier = new Cashier();
     }
 
     public void doCommand(String commandLine) {
-        if (!commandLine.equals("checkout")) {
-            System.err.println("You need to 'checkout' first to start shopping!");
-            return;
-        }
-        System.out.println("empty cart");
+        cashier.doCommand(commandLine);
     }
 }
