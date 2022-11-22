@@ -39,7 +39,7 @@ class SuperMarketTest extends BaseTest {
     void shouldRunOfferCommandTodefineOffer_BUY_2_GET_1_FREE() {
         provideInput("checkout\nadd soap 5\noffer buy_2_get_1_free soap\nbill\ncheckout");
         superMarket.work(null);
-        assertEquals("empty cart\r\nadded soap 5\r\noffer added\r\nsubtotal:50.00, discount:10.00, total:40.00\r\ndone\r\n", outContent.toString());
+        assertEquals("empty cart\r\nadded soap 5\r\noffer added\r\nsubtotal:50.00, discount:10.00, total:40.00\ndone\r\n", outContent.toString());
     }
 
     // need to see bill details when I run 'bill' command
@@ -47,7 +47,7 @@ class SuperMarketTest extends BaseTest {
     void shouldRunOfferCommandTodefineOffer_BUY_1_GET_HALF_OFF() {
         provideInput("checkout\nadd soap 4\noffer buy_1_get_half_off soap\nbill\ncheckout");
         superMarket.work(null);
-        assertEquals("empty cart\r\nadded soap 4\r\noffer added\r\nsubtotal:40.00, discount:10.00, total:30.00\r\ndone\r\n", outContent.toString());
+        assertEquals("empty cart\r\nadded soap 4\r\noffer added\r\nsubtotal:40.00, discount:10.00, total:30.00\ndone\r\n", outContent.toString());
     }
 
     // need to see the whole test flow in doc can run properly
@@ -58,14 +58,14 @@ class SuperMarketTest extends BaseTest {
         assertEquals("empty cart\r\n" +
                 "added soap 5\r\n" +
                 "added bread 1\r\n" +
-                "subtotal:52.50, discount:0.00, total:52.50\r\n" +
+                "subtotal:52.50, discount:0.00, total:52.50\n" +
                 "offer added\r\n" +
-                "subtotal:52.50, discount:10.00, total:42.50\r\n" +
+                "subtotal:52.50, discount:10.00, total:42.50\n" +
                 "added soap 1\r\n" +
-                "subtotal:62.50, discount:20.00, total:42.50\r\n" +
+                "subtotal:62.50, discount:20.00, total:42.50\n" +
                 "offer added\r\n" +
                 "added bread 1\r\n" +
-                "subtotal:65.00, discount:21.25, total:43.75\r\n" +
+                "subtotal:65.00, discount:21.25, total:43.75\n" +
                 "done\r\n", outContent.toString());
     }
 
@@ -76,14 +76,14 @@ class SuperMarketTest extends BaseTest {
         assertEquals("empty cart\r\n" +
                 "added soap 5\r\n" +
                 "added bread 1\r\n" +
-                "subtotal:52.50, discount:0.00, total:52.50\r\n" +
+                "subtotal:52.50, discount:0.00, total:52.50\n" +
                 "offer added\r\n" +
-                "subtotal:52.50, discount:10.00, total:42.50\r\n" +
+                "subtotal:52.50, discount:10.00, total:42.50\n" +
                 "added soap 1\r\n" +
-                "subtotal:62.50, discount:20.00, total:42.50\r\n" +
+                "subtotal:62.50, discount:20.00, total:42.50\n" +
                 "offer added\r\n" +
                 "added bread 1\r\n" +
-                "subtotal:65.00, discount:21.25, total:43.75\r\n" +
+                "subtotal:65.00, discount:21.25, total:43.75\n" +
                 "done\r\n", outContent.toString());
     }
 
@@ -93,11 +93,11 @@ class SuperMarketTest extends BaseTest {
         superMarket.work(null);
         assertEquals("empty cart\r\n" +
                 "added soap 3\r\n" +
-                "subtotal:30.00, discount:0.00, total:30.00\r\n" +
+                "subtotal:30.00, discount:0.00, total:30.00\n" +
                 "offer added\r\n" +
-                "subtotal:30.00, discount:10.00, total:20.00\r\n" +
+                "subtotal:30.00, discount:10.00, total:20.00\n" +
                 "removed soap 1\r\n" +
-                "subtotal:20.00, discount:0.00, total:20.00\r\n" +
+                "subtotal:20.00, discount:0.00, total:20.00\n" +
                 "done\r\n", outContent.toString());
     }
 
@@ -108,16 +108,16 @@ class SuperMarketTest extends BaseTest {
         superMarket.work(null);
         assertEquals("empty cart\r\n" +
                 "added soap 3\r\n" +
-                "subtotal:30.00, discount:0.00, total:30.00\r\n" +
+                "subtotal:30.00, discount:0.00, total:30.00\n" +
                 "offer added\r\n" +
-                "subtotal:30.00, discount:10.00, total:20.00\r\n" +
+                "subtotal:30.00, discount:10.00, total:20.00\n" +
                 "removed soap 1\r\n" +
-                "subtotal:20.00, discount:0.00, total:20.00\r\n" +
+                "subtotal:20.00, discount:0.00, total:20.00\n" +
                 "added bread 2\r\n" +
                 "offer added\r\n" +
-                "subtotal:25.00, discount:1.25, total:23.75\r\n" +
+                "subtotal:25.00, discount:1.25, total:23.75\n" +
                 "removed bread 1\r\n" +
-                "subtotal:22.50, discount:0.00, total:22.50\r\n" +
+                "subtotal:22.50, discount:0.00, total:22.50\n" +
                 "done\r\n", outContent.toString());
     }
 
