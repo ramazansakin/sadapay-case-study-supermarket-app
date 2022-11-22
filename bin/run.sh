@@ -12,6 +12,11 @@ cd $WORKING_DIR
 # This assumes the code to be in the folder <project_root>/solution, which is
 # used as working directory
 
-# === ADD CODE HERE ===
-# i.e.
-#   java -cp ./build/libs/coding-task-solution-1.0-SNAPSHOT.jar com.sadapay.Main $@
+sh ./../bin/setup.sh
+
+export JAVA_PROGRAM_ARGS=`echo "$@"`
+# also we can run the app via mvn command
+# mvn -q exec:java -Dexec.mainClass="com.test.Hello" -Dexec.args="$JAVA_PROGRAM_ARGS"
+java -cp ./target/Sadapay-Supermarket-App-1.0-SNAPSHOT.jar com.rsakin.sadapay.casestudy.SuperMarketApp $JAVA_PROGRAM_ARGS
+
+sh ./../bin/cleanup.sh

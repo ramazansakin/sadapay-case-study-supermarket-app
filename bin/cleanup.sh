@@ -11,6 +11,4 @@ cd $WORKING_DIR
 # This assumes the code to be in the folder <project_root>/solution, which is
 # used as working directory
 
-# === ADD CODE HERE ===
-# i.e.
-#   ./gradlew clean
+mvn -q clean
