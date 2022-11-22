@@ -1,6 +1,7 @@
 package com.rsakin.sadapay.casestudy;
 
 import java.util.HashSet;
+import java.util.Locale;
 import java.util.Optional;
 import java.util.Set;
 
@@ -36,7 +37,7 @@ public class ShoppingCart {
         var subTotal = items.parallelStream().map(item -> item.getPrice() * item.getQuantity()).reduce(0.0, Double::sum);
         var discount = items.parallelStream().mapToDouble(Item::calculateDiscount).reduce(0.0, Double::sum);
         var total = subTotal - discount;
-        System.out.println("subtotal:" + subTotal + ", discount:" + discount + ", total:" + total);
+        System.out.printf(Locale.ROOT, "subtotal:%.2f, discount:%.2f, total:%.2f\n", subTotal, discount, total);
     }
 
 }
