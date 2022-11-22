@@ -16,3 +16,7 @@ As I mentioned on the first interview, I really want to improve myself on TDD pr
 <li> All the functionalities running properly.</li>
 <li> All the test cases are GREEN.</li>
 <li> I worked on Windows machine so it is important that it can be failure for finding the folder/file paths on Linux or Mac.</li>
+<li> I run the submit.bat but as I saw, it didnt work fine and then I tried with submit.sh, it worked but couldnt work the project because of the path confusion I think,
+so probably it looks it failed to run via docker to run test cases and I have not much time to investigate the problem and solved, fyi.
+
+Thanks...
