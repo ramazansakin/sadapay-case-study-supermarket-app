@@ -69,6 +69,7 @@ class SuperMarketTest extends BaseTest {
                 "done\r\n", outContent.toString());
     }
 
+    // need to see the whole test flow with commands file in doc can run properly
     @Test
     void shouldWorkWithCommandFile() {
         superMarket.work("commands.txt");
@@ -85,5 +86,20 @@ class SuperMarketTest extends BaseTest {
                 "subtotal:65.0, discount:21.25, total:43.75\r\n" +
                 "done\r\n", outContent.toString());
     }
+
+    @Test
+    void shouldRemoveItemOnList() {
+        provideInput("checkout\nadd soap 3\nbill\noffer buy_2_get_1_free soap\nbill\nremove soap 1\nbill\ncheckout");
+        superMarket.work(null);
+        assertEquals("empty cart\r\n" +
+                "added soap 3\r\n" +
+                "subtotal:30.0, discount:0.0, total:30.0\r\n" +
+                "offer added\r\n" +
+                "subtotal:30.0, discount:10.0, total:20.0\r\n" +
+                "removed soap 1\r\n" +
+                "subtotal:20, discount:0.0, total:20.0\r\n" +
+                "done\r\n", outContent.toString());
+    }
+
 
 }
