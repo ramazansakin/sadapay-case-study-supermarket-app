@@ -5,6 +5,7 @@ import com.rsakin.sadapay.casestudy.offer.BuyTwoGetOneFree;
 import com.rsakin.sadapay.casestudy.type.CommandType;
 import com.rsakin.sadapay.casestudy.type.OfferType;
 
+import java.io.InputStream;
 import java.util.Locale;
 import java.util.Scanner;
 
@@ -12,9 +13,9 @@ public class Cashier {
 
     private ShoppingCart cart;
 
-    public void work() {
+    public void work(final InputStream inputStream) {
         // Using Scanner for Getting Input from User
-        Scanner in = new Scanner(System.in);
+        Scanner in = new Scanner(inputStream);
         String command = in.nextLine();
 
         while (!"checkout".equals(command)) {
