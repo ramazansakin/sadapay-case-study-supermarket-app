@@ -13,14 +13,14 @@ class SuperMarketTest extends BaseTest {
     void shouldGetInventoryFileAndPrintContent() {
         // supermarket init with inventory file
         provideInput("checkout\ncheckout");
-        superMarket.work();
+        superMarket.work(null);
     }
 
     // After refactor, Now we need to see 'empty cart' and 'done' outputs after two checkouts,
     @Test
     void shouldRunCommandCheckout() {
         provideInput("checkout\ncheckout");
-        superMarket.work();
+        superMarket.work(null);
         assertEquals("empty cart\r\ndone\r\n", outContent.toString());
     }
 
@@ -29,7 +29,7 @@ class SuperMarketTest extends BaseTest {
     void shouldNotAddItemToCart_NeedToCheckoutFirst() {
         // we need to create a loop to get commands and try to get checkout first to start shopping
         provideInput("add soap 5\ncheckout\ncheckout");
-        superMarket.work();
+        superMarket.work(null);
         // write add to see the below error message
         assertEquals("You need to 'checkout' first to start shopping!\r\n", errContent.toString());
     }
@@ -38,7 +38,7 @@ class SuperMarketTest extends BaseTest {
     @Test
     void shouldRunOfferCommandTodefineOffer_BUY_2_GET_1_FREE() {
         provideInput("checkout\nadd soap 5\noffer buy_2_get_1_free soap\nbill\ncheckout");
-        superMarket.work();
+        superMarket.work(null);
         assertEquals("empty cart\r\nadded soap 5\r\noffer added\r\nsubtotal:50.0, discount:10.0, total:40.0\r\ndone\r\n", outContent.toString());
     }
 
@@ -46,7 +46,7 @@ class SuperMarketTest extends BaseTest {
     @Test
     void shouldRunOfferCommandTodefineOffer_BUY_1_GET_HALF_OFF() {
         provideInput("checkout\nadd soap 4\noffer buy_1_get_half_off soap\nbill\ncheckout");
-        superMarket.work();
+        superMarket.work(null);
         assertEquals("empty cart\r\nadded soap 4\r\noffer added\r\nsubtotal:40.0, discount:10.0, total:30.0\r\ndone\r\n", outContent.toString());
     }
 
@@ -54,7 +54,7 @@ class SuperMarketTest extends BaseTest {
     @Test
     void shouldWorkAllTheSampleCasesRunningProperly() {
         provideInput("checkout\nadd soap 5\nadd bread 1\nbill\noffer buy_2_get_1_free soap\nbill\nadd soap 1\nbill\noffer buy_1_get_half_off bread\nadd bread 1\nbill\ncheckout");
-        superMarket.work();
+        superMarket.work(null);
         assertEquals("empty cart\r\n" +
                 "added soap 5\r\n" +
                 "added bread 1\r\n" +
