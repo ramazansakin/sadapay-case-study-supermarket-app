@@ -35,7 +35,7 @@ class CashierTest extends BaseTest {
         provideInput("checkout\nadd soap 5\nbill\ncheckout");
         SuperMarket market = new SuperMarket("inventory.csv");
         cashier.work(System.in);
-        assertEquals("empty cart\r\nadded soap 5\r\nsubtotal:50.0, discount:0.0, total:50.0\r\ndone\r\n", outContent.toString());
+        assertEquals("empty cart\r\nadded soap 5\r\nsubtotal:50.00, discount:0.00, total:50.00\ndone\r\n", outContent.toString());
     }
 
 }
