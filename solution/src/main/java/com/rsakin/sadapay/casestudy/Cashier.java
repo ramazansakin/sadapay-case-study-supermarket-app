@@ -31,8 +31,6 @@ public class Cashier {
         }
         // checkout to stop shopping
         doCommand(command);
-        // update the inventory file before exiting the app
-        SuperMarket.getInventory().updateFile();
     }
 
     private void doCommand(final String commandLine) {
@@ -47,17 +45,27 @@ public class Cashier {
                 case ADD:
                     add(parts);
                     break;
-                case BILL:
-                    bill();
+                case REMOVE:
+                    remove(parts);
                     break;
                 case OFFER:
                     offer(parts);
+                    break;
+                case BILL:
+                    bill();
+                    break;
+                case INVENTORY_STATUS:
+                    inventoryStatus();
                     break;
             }
         } catch (IllegalArgumentException exp) {
             System.err.println("There is no such command [ " + parts[0] + " ]");
         }
 
+    }
+
+    private void inventoryStatus() {
+        Inventory.printInventoryStatus();
     }
 
     private void checkout() {
@@ -70,19 +78,14 @@ public class Cashier {
             return;
         }
         System.out.println("done");
+        // update the inventory file before exiting the app
+        SuperMarket.getInventory().updateFile();
     }
 
     private void add(final String[] commandLineParts) {
         try {
             Item itemByName = SuperMarket.getInventory().findItemByName(commandLineParts[1]);
-            int requestedQuantity = Integer.parseInt(commandLineParts[2]);
-            if (requestedQuantity < 1) {
-                throw new RuntimeException("Requested quantity needs to be at least more than 1"); // can be customized
-            }
-            if (itemByName.getQuantity() < requestedQuantity) {
-                throw new RuntimeException("There is/are not enough item/s for [ "
-                        + itemByName.getName() + " ]. [Remained : " + itemByName.getQuantity() + "]"); // can be customized
-            }
+            int requestedQuantity = getRequestedQuantity(itemByName, commandLineParts[2]);
             // create new item to add to shopping-cart
             Item newCartItem = new Item(itemByName.getName(), itemByName.getPrice(), requestedQuantity);
             cart.addItem(newCartItem);
@@ -94,8 +97,31 @@ public class Cashier {
         }
     }
 
-    private void bill() {
-        cart.calculateBill();
+    private void remove(final String[] commandLineParts) {
+        try {
+            Item itemByName = cart.findItemByName(commandLineParts[1]);
+            int requestedQuantity = getRequestedQuantity(itemByName, commandLineParts[2]);
+            // update the item via decreasing the quantity
+            itemByName.setQuantity(itemByName.getQuantity() - requestedQuantity);
+            // update the inventory to add removed items
+            Item invItem = SuperMarket.getInventory().findItemByName(itemByName.getName());
+            invItem.setQuantity(invItem.getQuantity() + requestedQuantity);
+            System.out.println("removed " + itemByName.getName() + " " + requestedQuantity);
+        } catch (Exception ex) {
+            System.err.println("There is no such item [ " + commandLineParts[1] + " ] in inventory");
+        }
+    }
+
+    private int getRequestedQuantity(final Item itemByName, final String commandLinePart) {
+        int requestedQuantity = Integer.parseInt(commandLinePart);
+        if (requestedQuantity < 1) {
+            throw new RuntimeException("Requested quantity needs to be at least more than 1"); // can be customized
+        }
+        if (itemByName.getQuantity() < requestedQuantity) {
+            throw new RuntimeException("There is/are not enough item/s for [ "
+                    + itemByName.getName() + " ]. [Remained : " + itemByName.getQuantity() + "]"); // can be customized
+        }
+        return requestedQuantity;
     }
 
     private void offer(final String[] commandLineParts) {
@@ -124,4 +150,9 @@ public class Cashier {
             System.err.println("There is no such item [ " + itemOffered + " ] in inventory");
         }
     }
+
+    private void bill() {
+        cart.calculateBill();
+    }
+
 }

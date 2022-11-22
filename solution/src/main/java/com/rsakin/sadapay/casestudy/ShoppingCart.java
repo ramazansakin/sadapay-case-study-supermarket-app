@@ -32,9 +32,10 @@ public class ShoppingCart {
     public void calculateBill() {
         // If we have no concern regarding concurrency here and not need to run orderly,
         // we can use paralelStream to make the performance better
-        double subTotal = items.parallelStream().map(item -> item.getPrice() * item.getQuantity()).reduce(0.0, Double::sum);
-        double discount = items.parallelStream().mapToDouble(Item::calculateDiscount).reduce(0.0, Double::sum);
-        double total = subTotal - discount;
+        // we can also use var thanks to Java-10
+        var subTotal = items.parallelStream().map(item -> item.getPrice() * item.getQuantity()).reduce(0.0, Double::sum);
+        var discount = items.parallelStream().mapToDouble(Item::calculateDiscount).reduce(0.0, Double::sum);
+        var total = subTotal - discount;
         System.out.println("subtotal:" + subTotal + ", discount:" + discount + ", total:" + total);
     }
 

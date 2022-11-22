@@ -3,8 +3,10 @@ package com.rsakin.sadapay.casestudy.type;
 public enum CommandType {
     CHECKOUT("checkout"),
     ADD("add"),
+    REMOVE("remove"),
+    OFFER("offer"),
     BILL("bill"),
-    OFFER("offer");
+    INVENTORY_STATUS("inventory_status");
 
     private String type;
 
@@ -12,4 +14,5 @@ public enum CommandType {
         this.type = type;
     }
 }
+
 
