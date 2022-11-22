@@ -50,4 +50,23 @@ class SuperMarketTest extends BaseTest {
         assertEquals("empty cart\r\nadded soap 4\r\noffer added\r\nsubtotal:40.0, discount:10.0, total:30.0\r\ndone\r\n", outContent.toString());
     }
 
+    // need to see bill details when I run 'bill' command
+    @Test
+    void shouldWorkAllTheSampleCasesRunningProperly() {
+        provideInput("checkout\nadd soap 5\nadd bread 1\nbill\noffer buy_2_get_1_free soap\nbill\nadd soap 1\nbill\noffer buy_1_get_half_off bread\nadd bread 1\nbill\ncheckout");
+        superMarket.work();
+        assertEquals("empty cart\r\n" +
+                "added soap 5\r\n" +
+                "added bread 1\r\n" +
+                "subtotal:52.5, discount:0.0, total:52.5\r\n" +
+                "offer added\r\n" +
+                "subtotal:52.5, discount:10.0, total:42.5\r\n" +
+                "added soap 1\r\n" +
+                "subtotal:62.5, discount:20.0, total:42.5\r\n" +
+                "offer added\r\n" +
+                "added bread 1\r\n" +
+                "subtotal:65.0, discount:21.25, total:43.75\r\n" +
+                "done\r\n", outContent.toString());
+    }
+
 }
