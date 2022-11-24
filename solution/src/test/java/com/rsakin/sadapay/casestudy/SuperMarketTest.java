@@ -12,7 +12,7 @@ class SuperMarketTest extends BaseTest {
     SuperMarket superMarket = SuperMarket.getSuperMarket("inventory.csv");
 
     @BeforeEach
-    public void resetSingleton() throws SecurityException, NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
+    public void resetSingleton() throws NoSuchFieldException, IllegalAccessException {
         Field instance = SuperMarket.class.getDeclaredField("superMarket");
         instance.setAccessible(true);
         instance.set(null, null);
