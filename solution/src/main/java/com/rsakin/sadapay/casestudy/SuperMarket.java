@@ -7,15 +7,24 @@ import java.io.InputStream;
 
 public class SuperMarket {
 
+    // SuperMarket needs to be Singleton
+    private static SuperMarket superMarket;
     private static Inventory inventory;
     public static final String BASE_FOLDER = ".\\..\\functional_spec\\fixtures";
     // we can use List to multiply cashiers to serve multiple users simultaneously
     // But also we need to consider concurrency issues then
     private Cashier cashier;
 
-    public SuperMarket(final String inventoryFile) {
+    private SuperMarket(final String inventoryFile) {
         inventory = Inventory.getInventory(inventoryFile);
         cashier = new Cashier();
+    }
+
+    public static SuperMarket getSuperMarket(final String inventoryFile) {
+        if (superMarket == null) {
+            superMarket = new SuperMarket(inventoryFile);
+        }
+        return superMarket;
     }
 
     public void work(final String commandsFile) {
