@@ -16,32 +16,21 @@ public class Cashier {
     public void work(final InputStream inputStream) {
         // Using Scanner for Getting Input from User
         Scanner in = new Scanner(inputStream);
-        String command = in.nextLine();
+        String command;
+        do {
+            command = in.nextLine();
+        } while (doCommand(command));
 
-        while (!"checkout".equals(command)) {
-            System.err.println("You need to 'checkout' first to start shopping!");
-            command = in.nextLine();
-        }
-        // checkout to start shopping
-        doCommand(command);
-        command = in.nextLine();
-        while (!"checkout".equals(command)) {
-            doCommand(command);
-            command = in.nextLine();
-        }
-        // checkout to stop shopping
-        doCommand(command);
     }
 
-    private void doCommand(final String commandLine) {
+    private boolean doCommand(final String commandLine) {
         // parse the commandLine
         String[] parts = commandLine.split(" ");
         try {
             CommandType commandType = CommandType.valueOf(parts[0].toUpperCase(Locale.ROOT));
             switch (commandType) {
                 case CHECKOUT:
-                    checkout();
-                    break;
+                    return checkout();
                 case ADD:
                     add(parts);
                     break;
@@ -61,28 +50,38 @@ public class Cashier {
         } catch (IllegalArgumentException exp) {
             System.err.println("There is no such command [ " + parts[0] + " ]");
         }
-
+        return true;
     }
 
     private void inventoryStatus() {
         Inventory.printInventoryStatus();
     }
 
-    private void checkout() {
+    private boolean checkout() {
         // There could be more than one cashiers
         // So cart is locally singleton to be make sure that there is one cart per cashier/user
         // Also it checks whether the user started shopping or done
         if (cart == null) {
             System.out.println("empty cart");
             this.cart = new ShoppingCart();
-            return;
+            return true;
         }
         System.out.println("done");
         // update the inventory file before exiting the app
         SuperMarket.getInventory().updateFile();
+        return false;
+    }
+
+    private boolean isCartInitialized() {
+        if (cart == null) {
+            System.err.println("You need to 'checkout' first to start shopping!");
+            return false;
+        }
+        return true;
     }
 
     private void add(final String[] commandLineParts) {
+        if (!isCartInitialized()) return;
         try {
             Item itemByName = SuperMarket.getInventory().findItemByName(commandLineParts[1]);
             int requestedQuantity = getRequestedQuantity(itemByName, commandLineParts[2]);
@@ -98,6 +97,7 @@ public class Cashier {
     }
 
     private void remove(final String[] commandLineParts) {
+        if (!isCartInitialized()) return;
         try {
             Item itemByName = cart.findItemByName(commandLineParts[1]);
             int requestedQuantity = getRequestedQuantity(itemByName, commandLineParts[2]);
@@ -125,6 +125,7 @@ public class Cashier {
     }
 
     private void offer(final String[] commandLineParts) {
+        if (!isCartInitialized()) return;
         String offerType = commandLineParts[1];
         String itemOffered = commandLineParts[2];
         addOffer(offerType, itemOffered);
@@ -152,6 +153,7 @@ public class Cashier {
     }
 
     private void bill() {
+        if (!isCartInitialized()) return;
         cart.calculateBill();
     }
 
