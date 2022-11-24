@@ -1,12 +1,22 @@
 package com.rsakin.sadapay.casestudy;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.lang.reflect.Field;
 
 import static junit.framework.TestCase.assertEquals;
 
 class SuperMarketTest extends BaseTest {
 
-    SuperMarket superMarket = new SuperMarket("inventory.csv");
+    SuperMarket superMarket = SuperMarket.getSuperMarket("inventory.csv");
+
+    @BeforeEach
+    public void resetSingleton() throws SecurityException, NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
+        Field instance = SuperMarket.class.getDeclaredField("superMarket");
+        instance.setAccessible(true);
+        instance.set(null, null);
+    }
 
     // First we have inventory file and we need to read all the lines properly
     @Test

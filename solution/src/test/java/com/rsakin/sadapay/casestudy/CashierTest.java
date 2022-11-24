@@ -23,7 +23,7 @@ class CashierTest extends BaseTest {
         // we need to create a loop to get commands and try to get checkout first to start shopping
         provideInput("checkout\nadd bread 5\ncheckout");
         // we need to use super market to build Inventory first
-        SuperMarket market = new SuperMarket("inventory.csv");
+        SuperMarket market = SuperMarket.getSuperMarket("inventory.csv");
         cashier.work(System.in);
         // write add to see the below error message
         assertEquals("empty cart\r\nadded bread 5\r\ndone\r\n", outContent.toString());
@@ -33,7 +33,7 @@ class CashierTest extends BaseTest {
     @Test
     void shouldRunBillCommandToSeeDetails() {
         provideInput("checkout\nadd soap 5\nbill\ncheckout");
-        SuperMarket market = new SuperMarket("inventory.csv");
+        SuperMarket market = SuperMarket.getSuperMarket("inventory.csv");
         cashier.work(System.in);
         assertEquals("empty cart\r\nadded soap 5\r\nsubtotal:50.00, discount:0.00, total:50.00\ndone\r\n", outContent.toString());
     }
