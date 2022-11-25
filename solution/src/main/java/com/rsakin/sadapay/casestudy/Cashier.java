@@ -1,5 +1,6 @@
 package com.rsakin.sadapay.casestudy;
 
+import com.rsakin.sadapay.casestudy.offer.BuyFourGetCheapest;
 import com.rsakin.sadapay.casestudy.offer.BuyOneGetHalfOff;
 import com.rsakin.sadapay.casestudy.offer.BuyTwoGetOneFree;
 import com.rsakin.sadapay.casestudy.type.CommandType;
@@ -126,12 +127,42 @@ public class Cashier {
 
     private void offer(final String[] commandLineParts) {
         if (!isCartInitialized()) return;
+        // if there is a specific item on offer, it's item based offer
+        // if there is just offer, its cart-based offer
+        if (commandLineParts.length > 3 && commandLineParts.length < 2) {
+            System.err.println("At most 3 & at least 1 parameters to offer");
+            return;
+        }
         String offerType = commandLineParts[1];
-        String itemOffered = commandLineParts[2];
-        addOffer(offerType, itemOffered);
+        if (commandLineParts.length == 3) {
+            String itemOffered = commandLineParts[2];
+            // item-based offer
+            addItemBasedOffer(offerType, itemOffered);
+        } else if (commandLineParts.length == 2) {
+            // cart-based offer
+            addCartBasedOffer(offerType);
+        }
     }
 
-    private void addOffer(final String offerType, final String itemOffered) {
+    private void addCartBasedOffer(final String offerType) {
+        try {
+            OfferType offer = OfferType.valueOf(offerType.toUpperCase(Locale.ROOT));
+            switch (offer) {
+                case BUY_4_GET_CHEAPEST:
+                    cart.setOffer(new BuyFourGetCheapest());
+                    break;
+            }
+            System.out.println("offer added");
+        } catch (Exception ex) {
+            System.err.println("There is no such offer type [ " + offerType + " ]");
+        }
+
+        if (OfferType.BUY_4_GET_CHEAPEST.getType().equals(offerType)) {
+            cart.setOffer(new BuyFourGetCheapest());
+        }
+    }
+
+    private void addItemBasedOffer(final String offerType, final String itemOffered) {
         try {
             OfferType offer = OfferType.valueOf(offerType.toUpperCase(Locale.ROOT));
             // need to check item in cart

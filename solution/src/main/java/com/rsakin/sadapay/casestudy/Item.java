@@ -1,17 +1,17 @@
 package com.rsakin.sadapay.casestudy;
 
-import com.rsakin.sadapay.casestudy.offer.Offerable;
+import com.rsakin.sadapay.casestudy.offer.OfferableItem;
 import com.rsakin.sadapay.casestudy.offer.ZeroOffer;
 
 import java.util.Objects;
 
-public class Item {
+public class Item implements Comparable<Item> {
 
-    private String name;
-    private double price;
+    private final String name;
+    private final double price;
     private int quantity;
     // as default, there is no discount
-    private Offerable offer = new ZeroOffer();
+    private OfferableItem offer = new ZeroOffer();
 
     public Item(String name, double price, int quantity) {
         this.name = name;
@@ -23,16 +23,8 @@ public class Item {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public double getPrice() {
         return price;
-    }
-
-    public void setPrice(double price) {
-        this.price = price;
     }
 
     public int getQuantity() {
@@ -56,11 +48,11 @@ public class Item {
         return Objects.hash(getName());
     }
 
-    public Offerable getOffer() {
+    public OfferableItem getOffer() {
         return offer;
     }
 
-    public void setOffer(Offerable offer) {
+    public void setOffer(OfferableItem offer) {
         this.offer = offer;
     }
 
@@ -82,5 +74,12 @@ public class Item {
         // return getOffer().orElse(itemOffered -> 0).calculateDiscount(this);
         // Or we can explicitly define an DefaultOffer class to cover non-offered items properly
         return getOffer().calculateDiscount(this);
+    }
+
+    @Override
+    public int compareTo(Item o) {
+        if (this.price > o.getPrice())
+            return 1;
+        return -1;
     }
 }

@@ -1,5 +1,7 @@
 package com.rsakin.sadapay.casestudy;
 
+import com.rsakin.sadapay.casestudy.offer.OfferableCart;
+
 import java.util.HashSet;
 import java.util.Locale;
 import java.util.Optional;
@@ -8,6 +10,7 @@ import java.util.Set;
 public class ShoppingCart {
 
     private Set<Item> items;
+    private OfferableCart offer;
 
     public ShoppingCart() {
         items = new HashSet<>();
@@ -25,6 +28,18 @@ public class ShoppingCart {
         }
     }
 
+    public Set<Item> getItems() {
+        return items;
+    }
+
+    public OfferableCart getOffer() {
+        return offer;
+    }
+
+    public void setOffer(OfferableCart offer) {
+        this.offer = offer;
+    }
+
     public Item findItemByName(final String itemName) {
         Optional<Item> theItem = items.stream().filter(item -> item.getName().equals(itemName)).findFirst();
         return theItem.orElseThrow(() -> new RuntimeException("Item not found [" + itemName + "]"));
@@ -35,7 +50,15 @@ public class ShoppingCart {
         // we can use paralelStream to make the performance better
         // we can also use var thanks to Java-10
         var subTotal = items.parallelStream().map(item -> item.getPrice() * item.getQuantity()).reduce(0.0, Double::sum);
-        var discount = items.parallelStream().mapToDouble(Item::calculateDiscount).reduce(0.0, Double::sum);
+
+        var discount = 0.0;
+        if (this.offer != null) {
+            discount = getOffer().calculateDiscount(this.getItems());
+        } else {
+            // item-based
+            discount = items.parallelStream().mapToDouble(Item::calculateDiscount).reduce(0.0, Double::sum);
+        }
+
         var total = subTotal - discount;
         System.out.printf(Locale.ROOT, "subtotal:%.2f, discount:%.2f, total:%.2f\n", subTotal, discount, total);
     }

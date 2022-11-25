@@ -3,7 +3,7 @@ package com.rsakin.sadapay.casestudy.offer;
 
 import com.rsakin.sadapay.casestudy.Item;
 
-public class BuyOneGetHalfOff implements Offerable {
+public class BuyOneGetHalfOff implements OfferableItem {
 
     static final int MIN_NUMBER_OFFERABLE = 2;
 
@@ -12,4 +12,5 @@ public class BuyOneGetHalfOff implements Offerable {
         int discountedItemNumber = makeOffer(itemOffered, MIN_NUMBER_OFFERABLE);
         return discountedItemNumber * (itemOffered.getPrice() / 2.0);
     }
+
 }
