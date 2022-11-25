@@ -1,6 +1,7 @@
 package com.rsakin.sadapay.casestudy;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.Field;
@@ -20,6 +21,7 @@ class SuperMarketTest extends BaseTest {
 
     // First we have inventory file and we need to read all the lines properly
     @Test
+    @DisplayName("First we have inventory file and we need to read all the lines properly")
     void shouldGetInventoryFileAndPrintContent() {
         // supermarket init with inventory file
         provideInput("checkout\ncheckout");
@@ -129,6 +131,15 @@ class SuperMarketTest extends BaseTest {
                 "removed bread 1\r\n" +
                 "subtotal:22.50, discount:0.00, total:22.50\n" +
                 "done\r\n", outContent.toString());
+    }
+
+    @Test
+    @DisplayName("I need to see that I can add offer called buy_4_get_cheapest and see the discount")
+    void shouldRunOfferCommandToDefineOffer_BUY_4_CHEAPEST() {
+        provideInput("checkout\nadd soap 1\nadd bread 1\nadd soda 1\nadd cola 1\noffer buy_4_get_cheapest\nbill\ncheckout");
+        superMarket.work(null);
+        assertEquals("empty cart\r\nadded soap 1\r\nadded bread 1\r\nadded soda 1\r\nadded cola 1\r\noffer added\r\n" +
+                "subtotal:18.50, discount:14.50, total:4.00\ndone\r\n", outContent.toString());
     }
 
 
